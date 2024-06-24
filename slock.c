@@ -145,13 +145,17 @@ refresh(Display *dpy, Window win , int screen, struct tm time, cairo_t* cr, cair
 	int xpos,ypos;
 	xpos=DisplayWidth(dpy, screen)/4;
 	ypos=DisplayHeight(dpy, screen)/2;
-	sprintf(tm,"%02d/%02d/%d %02d:%02d",time.tm_mday,time.tm_mon,time.tm_year+1900,time.tm_hour,time.tm_min);
+	sprintf(tm,"%02d/%02d/%d %02d:%02d", time.tm_mday,time.tm_mon,time.tm_year+1900,time.tm_hour,time.tm_min);
 	XClearWindow(dpy, win);
-    cairo_set_source_rgb(cr, 256, 256, 256);
+  cairo_set_source_rgb(cr, 256, 256, 256);
 	cairo_select_font_face(cr, "serif", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
-    cairo_set_font_size(cr, 64.0);
+  cairo_set_font_size(cr, 64.0);
+	cairo_move_to(cr, xpos, ypos - 70);  /*drawing custom text*/
+	cairo_show_text(cr, distro);
 	cairo_move_to(cr, xpos, ypos);
 	cairo_show_text(cr, tm);
+	cairo_move_to(cr, xpos, ypos + 70);  /*drawing message from config.h. not part of showtime patch*/
+	cairo_show_text(cr, message);
 	cairo_surface_flush(sfc);
 	XFlush(dpy);
 }
